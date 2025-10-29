@@ -125,7 +125,7 @@ static void sStandByMode(void)
     {
         if(sfsm_Delay(3000))
         {
-            sfsm_SetSubState(State_Sub_Init);
+            sfsm_SetState(State_NormalInv);
         }
     }
     break;
@@ -153,6 +153,8 @@ static void sNormalInvMode(void)
     if( sfsm_ChkStateChange() )
     { return; }
 
+    dcac_Start();
+
 }
 static void sLimitInvMode(void)
 {
@@ -164,6 +166,8 @@ static void sFaultMode(void)
 {
     if( sfsm_ChkStateChange() )
     { return; }
+
+    dcac_Stop();
 
 }
 static void sDebugMode(void)

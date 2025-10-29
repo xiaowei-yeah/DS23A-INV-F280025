@@ -83,7 +83,7 @@ void dcac_init(dcac_TypeDef *self)
     self->ouputCurr = 0;
     self->targetVolt = 0;
     self->targetCurr = 0;
-    self->targetVoltAm = 0;
+    self->targetVoltAm = 10;
     self->targetCurrAm = 0;
     self->ts = (1.0f / 20000.0f);
     self->wn = (m2Pi * 50);
@@ -92,10 +92,6 @@ void dcac_init(dcac_TypeDef *self)
     self->lastSin = 0;
 
     self->en = eDisable;
-
-//    self->currflg = eDisable;
-//    self->voltflg = eDisable;
-//    self->firstOverZeroflg = eDisable;
 
     ctrl_spll_Init(&self->spll,self->ts,self->wn);
     ctrl_pi_Init(&self->ctrl_iPI,1,10,100,-100,self->ts);
@@ -107,7 +103,7 @@ void dcac_Init()
     dcac_init(&dcac);
     dcac.currflg = eDisable;
     dcac.voltflg = eDisable;
-    dcac.firstOverZeroflg = eDisable;
+    dcac.openloopflg = eEnable;
 }
 
 /****************************************************************
@@ -124,7 +120,7 @@ void dcac_func(dcac_TypeDef *self ,float Io ,float Vo ,float Vin)
 
     self->ouputCurr = Io;
     self->ouputVolt = Vo;
-    self->inputVolt = Vin;
+    self->inputVolt = 11.7f;
 
 
     if(self->currflg == eEnable)    // 并网 锁相
@@ -182,6 +178,7 @@ void dcac_func(dcac_TypeDef *self ,float Io ,float Vo ,float Vin)
         else if(self->openloopflg == eEnable)   //
         {
             self->wm = self->targetVoltAm / self->inputVolt * self->baseSin;
+
         }
 
         // 单极性调制输出

@@ -51,6 +51,8 @@ void main(void)
 
     samp_Init();
 
+    dcac_Init();
+
     Scheduler_Setup();
 
     //

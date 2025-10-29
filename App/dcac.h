@@ -17,6 +17,7 @@
 
 //------------------------------------Function declaration---------------------------------
 
+void dcac_Init();
 void dcac_Func(float Io ,float Vo ,float Vin);
 void dcac_Start(void);
 void dcac_Stop(void);
