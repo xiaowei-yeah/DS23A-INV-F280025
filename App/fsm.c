@@ -1,7 +1,7 @@
 /*
 * File: 	fsm.c
 * Date: 	2025Äê10ÔÂ21ÈÕ
-* Author: 	jinjiale
+* Author: 	jin
 
 * Description: 	
 * Version: 		

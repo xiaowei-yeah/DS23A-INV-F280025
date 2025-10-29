@@ -1,7 +1,7 @@
 /*
 * File: 	ctrl.h
 * Date: 	2025Äê10ÔÂ24ÈÕ
-* Author: 	jinjiale
+* Author: 	jin
 
 * Description: 	
 * Version: 		
@@ -89,8 +89,12 @@ typedef struct ctrl_spll_TyprDef{
     float               wn;
     float               ud;
     float               uq;
+
     ctrl_sogi_TyprDef   sogi;
     ctrl_pi_TyprDef     pi;
+
+    float               chkThreshold;
+    uint16_t            ok;
 
 } ctrl_spll_TyprDef;
 

@@ -36,6 +36,7 @@ uint16_t samp_setCaliPara(AdcName_enum id,float a,float b);
 float samp_getReal(AdcName_enum id);
 float samp_getPu(AdcName_enum id);
 float samp_getAd(AdcName_enum id);
+float samp_getRms(AdcName_enum id);
 
 float samp_RmsFunc(AdcName_enum id);
 

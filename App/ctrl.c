@@ -1,15 +1,16 @@
 /*
 * File: 	ctrl.c
 * Date: 	2025年10月24日
-* Author: 	jinjiale
+* Author: 	jin
 
 * Description: 	
 * Version: 		
 */
 //------------------------------------------Include----------------------------------------
 
-#include "ctrl.h"
+#include "stdint.h"
 #include "math.h"
+#include "ctrl.h"
 
 //-------------------------------------------Macro-----------------------------------------
 
@@ -124,6 +125,52 @@ void ctrl_spll_Init(ctrl_spll_TyprDef *self, float ts, float wn)
     self->uq = 0;
     ctrl_sogi_Init(&self->sogi,1,ts,wn);
     ctrl_pi_Init(&self->pi,2,60,1000,-1000,ts);
+    self->chkThreshold = 1.0;
+    self->ok = 0;
+}
+
+/****************************************************************
+* Function:
+* Description:
+* Input:
+* Output: None
+* Return: None
+****************************************************************/
+static inline void ctrl_spll_Chk(ctrl_spll_TyprDef *self)
+{
+    static uint16_t NomalCount = 0;
+    static uint16_t FaultCount = 0;
+
+    if( fabsf(self->uq) < self->chkThreshold)      //正常
+    {
+        if(self->ok == 1)
+        {
+            return ;
+        }
+        NomalCount++;
+        FaultCount = 0;
+    }
+    else        //异常
+    {
+        if(self->ok == 0)
+        {
+            return ;
+        }
+        FaultCount++;
+        NomalCount = 0;
+    }
+
+    if(FaultCount >= 100)
+    {
+        self->ok = 0;
+        return ;
+    }
+
+    if(self->ok == 1 || NomalCount >= 5000)
+    {
+        self->ok = 1;
+        return ;
+    }
 }
 /****************************************************************
 * Function:
@@ -132,6 +179,7 @@ void ctrl_spll_Init(ctrl_spll_TyprDef *self, float ts, float wn)
 * Output: None
 * Return: None
 ****************************************************************/
+
 void ctrl_spll_Run(ctrl_spll_TyprDef *self, float ui)
 {
     ctrl_sogi_Run(&self->sogi,ui);
@@ -144,7 +192,10 @@ void ctrl_spll_Run(ctrl_spll_TyprDef *self, float ui)
     self->w = self->wn + self->pi.out;
     self->wt += self->w * self->pi.ts;
     self->wt = self->wt >= m2Pi ? self->wt - m2Pi : self->wt;
+
+    ctrl_spll_Chk(self);
 }
+
 
 /****************************************************************
 * Function:
@@ -183,6 +234,9 @@ void ctrl_2p2z_Init(ctrl_2p2z_TyprDef *self, float b0,float b1,float b2,float a1
 float ctrl_2p2z_Run(ctrl_2p2z_TyprDef *self, float ref,float fbk)
 {
 
+    self->ref = ref;
+    self->fbk = fbk;
+
     self->err = self->ref - self->fbk;
     self->out = (self->a2*self->out2) + (self->a1 *self->out1) + (self->b2 *self->err2)
                     + (self->b1 * self->err1) + (self->b0 * self->err);
@@ -200,7 +254,6 @@ float ctrl_2p2z_Run(ctrl_2p2z_TyprDef *self, float ref,float fbk)
 
     return self->out;
 }
-
 
 
 //--------------------------------------end of this file-----------------------------------

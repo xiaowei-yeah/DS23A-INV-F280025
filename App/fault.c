@@ -22,10 +22,11 @@
 const FaultPara_TypeDef     FaultParaDefault[FM_FaultID_End] =
 {
     //故障名                  // 使能         // 类型              // 保护值        // 超过计值      // 恢复值        // 恢复计值      // 计数1     // 计数2     // 默认状态
-    [FM_OverVoltRms_In  ] = {FM_Enable,     FM_OverType,        40,             500,            0,              10000,          0,          0,          FM_Nomal},
-    [FM_UnderVoltRms_In ] = {FM_Enable,     FM_UnderType,       28,             500,            0,              10000,          0,          0,          FM_Nomal},
-    [FM_OverVolt_Out    ] = {FM_Enable,     FM_OverType,        55,             10,             0,              10000,          0,          0,          FM_Nomal},
-    [FM_OverCurr_Out    ] = {FM_Enable,     FM_OverType,        5,              3,              0,              10000,          0,          0,          FM_Nomal}
+    [FM_OverVolt_In     ] = {FM_Enable,     FM_OverType,        40,             500,            40,             5000,           0,          0,          FM_Nomal},
+    [FM_UnderVolt_In    ] = {FM_Enable,     FM_UnderType,       8,              500,            8,              5000,           0,          0,          FM_Nomal},
+    [FM_OverVolt_Out    ] = {FM_Enable,     FM_OverType,        40,             10,             40,             5000,           0,          0,          FM_Nomal},
+    [FM_OverCurr_Out    ] = {FM_Enable,     FM_OverType,        5,              0,              1,              5000,           0,          0,          FM_Nomal},
+    [FM_Spll            ] = {FM_Enable,     FM_UnderType,       1,              0,              0,              5000,           0,          0,          FM_Nomal}
 };
 
 static FaultPara_TypeDef    Fault[FM_FaultID_End];      // 故障定义
@@ -149,6 +150,7 @@ void Fault_RecoverTimeSet(enum FaultID Fault_ID,uint16_t Time)
 * Input:                void
 * Output:               主故障状态
 *******************************************************/
+#pragma CODE_SECTION(Fault_GetFaultStatus,".TI.ramfunc");
 uint16_t Fault_GetFaultStatus(void)
 {
     return MainFaultStatus;
@@ -159,6 +161,7 @@ uint16_t Fault_GetFaultStatus(void)
 * Input:                void
 * Output:               故障码
 *******************************************************/
+#pragma CODE_SECTION(Fault_GetFaultCode,".TI.ramfunc");
 uint32_t Fault_GetFaultCode(void)
 {
     return FaultCode;
@@ -340,9 +343,21 @@ void Fault_UnderRecoverCheck(enum FaultID Fault_ID,float Value)
 *******************************************************/
 void Fault_CheckTask(void)
 {
+    Fault_OverCheck(FM_OverVolt_In,  samp_getReal(eVolt_InA));
+    Fault_UnderCheck(FM_UnderVolt_In,samp_getReal(eVolt_InA));
+    Fault_UnderCheck(FM_Spll,           dcac_GetSpllState());
+}
 
-//    Fault_OverCheck(FM_OverVoltRms_In, );
-//    Fault_UnderCheck(FM_UnderVoltRms_In, );
+/******************************************************
+* Function description: 快速故障任务
+* Input:                void
+* Output:               void
+*******************************************************/
+#pragma CODE_SECTION(FaultIsrTask,".TI.ramfunc");
+void FaultIsrTask(void)
+{
+    Fault_OverCheck(FM_OverVolt_Out,    samp_getReal(eVolt_OutA));
+    Fault_OverCheck(FM_OverCurr_Out,    samp_getReal(eCurr_OutA));
 }
 
 /******************************************************
@@ -352,19 +367,14 @@ void Fault_CheckTask(void)
 *******************************************************/
 void Fault_RecoverTask(void)
 {
-//    Fault_OverRecoverCheck(ID,Value);//
+    Fault_OverRecoverCheck(FM_OverVolt_In,  samp_getReal(eVolt_InA));
+    Fault_UnderRecoverCheck(FM_UnderVolt_In,samp_getReal(eVolt_InA));
+    Fault_UnderRecoverCheck(FM_Spll,        dcac_GetSpllState());
+
+    Fault_OverRecoverCheck(FM_OverVolt_Out,  samp_getReal(eVolt_OutA));
+    Fault_OverRecoverCheck(FM_OverCurr_Out,  samp_getReal(eCurr_OutA));
 }
 
-/******************************************************
-* Function description: 快速故障任务
-* Input:                void
-* Output:               void
-*******************************************************/
-void FaultIsrTask(void)
-{
-    Fault_OverCheck(FM_OverVolt_Out,samp_getReal(eVolt_OutA));
-    Fault_OverCheck(FM_OverCurr_Out,samp_getReal(eCurr_OutA));
-}
 /******************************************************
 * Function description: 故障任务
 * Input:                void

@@ -1,13 +1,13 @@
 /*
-* File: 	acac.h
+* File: 	dcac.h
 * Date: 	2025Äê10ÔÂ24ÈÕ
-* Author: 	jinjiale
+* Author: 	jin
 
 * Description: 	
 * Version: 		
 */
-#ifndef APP_ACAC_H_
-#define APP_ACAC_H_
+#ifndef APP_DCAC_H_
+#define APP_DCAC_H_
 
 //------------------------------------------Include----------------------------------------
 
@@ -17,8 +17,13 @@
 
 //------------------------------------Function declaration---------------------------------
 
-void acac_Func(float Io ,float Vo ,float Vin);
+void dcac_Func(float Io ,float Vo ,float Vin);
+void dcac_Start(void);
+void dcac_Stop(void);
+void dcac_SetVoltLoop(void);
+void dcac_SetCurrLoop(void);
+uint16_t dcac_GetSpllState(void);
 
-#endif /* APP_ACAC_H_ */
+#endif /* APP_DCAC_H_ */
 
 //--------------------------------------end of this file-----------------------------------

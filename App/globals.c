@@ -1,7 +1,7 @@
 /*
 * File: 	globals.c
 * Date: 	2025Äê9ÔÂ26ÈÕ
-* Author: 	jinjiale
+* Author: 	jin
 
 * Description: 	
 * Version: 		

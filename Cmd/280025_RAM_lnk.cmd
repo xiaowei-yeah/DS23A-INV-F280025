@@ -24,7 +24,7 @@ MEMORY
 SECTIONS
 {
    .text            : > RAMLS4567
-   .TI.ramfunc      : > RAMM0
+   .TI.ramfunc      : > RAMGS0
    .cinit           : > RAMM0
    .switch          : > RAMM0
    .reset           : > RESET,                  TYPE = DSECT /* not used, */

@@ -94,6 +94,7 @@ void samp_Init()
 * Output: None
 * Return: None
 ****************************************************************/
+#pragma CODE_SECTION(samp_updateAdc2Real,".TI.ramfunc");
 uint16_t samp_updateAdc2Real(AdcName_enum id,uint16_t ad)
 {
     if(id >= cADC_ALL_NUM)
@@ -106,7 +107,7 @@ uint16_t samp_updateAdc2Real(AdcName_enum id,uint16_t ad)
     return 1;
 }
 
-
+#pragma CODE_SECTION(samp_UpdateAll,".TI.ramfunc");
 void samp_UpdateAll()
 {
     samp_updateAdc2Real(eCurr_OutA, (dma_getBuff(0)+dma_getBuff(16))>>1 );
@@ -138,11 +139,12 @@ uint16_t samp_setCaliPara(AdcName_enum id,float a,float b)
 * Output: None
 * Return: None
 ****************************************************************/
+#pragma CODE_SECTION(samp_getReal,".TI.ramfunc");
 float samp_getReal(AdcName_enum id)
 {
     return Ain[id].Real;
 }
-
+#pragma CODE_SECTION(samp_getPu,".TI.ramfunc");
 float samp_getPu(AdcName_enum id)
 {
     return Ain[id].Pu;
@@ -151,6 +153,11 @@ float samp_getPu(AdcName_enum id)
 float samp_getAd(AdcName_enum id)
 {
     return Ain[id].Ad;
+}
+
+float samp_getRms(AdcName_enum id)
+{
+    return Ain[id].rms.real;
 }
 
 
@@ -164,6 +171,7 @@ float samp_getAd(AdcName_enum id)
 * Output: None
 * Return: None
 ****************************************************************/
+#pragma CODE_SECTION(samp_Rmsfunc,".TI.ramfunc");
 float samp_Rmsfunc(Rms_typedef *v ,float ui)
 {
     v->ui = ui;
@@ -185,6 +193,7 @@ float samp_Rmsfunc(Rms_typedef *v ,float ui)
 
     return v->real;
 }
+#pragma CODE_SECTION(samp_RmsFunc,".TI.ramfunc");
 float samp_RmsFunc(AdcName_enum id)
 {
     if(id >= cADC_ALL_NUM)
