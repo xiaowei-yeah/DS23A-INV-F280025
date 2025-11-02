@@ -83,7 +83,7 @@ void dcac_init(dcac_TypeDef *self)
     self->ouputCurr = 0;
     self->targetVolt = 0;
     self->targetCurr = 0;
-    self->targetVoltAm = 10;
+    self->targetVoltAm = 30;
     self->targetCurrAm = 0;
     self->ts = (1.0f / 20000.0f);
     self->wn = (m2Pi * 50);
@@ -120,7 +120,7 @@ void dcac_func(dcac_TypeDef *self ,float Io ,float Vo ,float Vin)
 
     self->ouputCurr = Io;
     self->ouputVolt = Vo;
-    self->inputVolt = 11.7f;
+    self->inputVolt = 50.0f;
 
 
     if(self->currflg == eEnable)    // ²¢Íø ËøÏà
@@ -245,6 +245,17 @@ void dcac_SetCurrLoop(void)
 uint16_t dcac_GetSpllState(void)
 {
     return dcac.spll.ok;
+}
+
+void dcac_SetTargetVoltAm(float v)
+{
+    v = v > 50 ? 50 : v;
+    v = v < 0 ? 0 : v;
+    dcac.targetVoltAm = v;
+}
+float dcac_GetTargetVoltAm()
+{
+    return dcac.targetVoltAm;
 }
 
 

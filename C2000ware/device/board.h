@@ -121,6 +121,18 @@ extern "C"
 // GPIO41 - GPIO Settings
 //
 #define PWM_EN_GPIO_PIN_CONFIG GPIO_41_GPIO41
+//
+// GPIO4 - GPIO Settings
+//
+#define Key1_GPIO_PIN_CONFIG GPIO_4_GPIO4
+//
+// GPIO25 - GPIO Settings
+//
+#define Key2_GPIO_PIN_CONFIG GPIO_25_GPIO25
+//
+// GPIO40 - GPIO Settings
+//
+#define Key3_GPIO_PIN_CONFIG GPIO_40_GPIO40
 
 //*****************************************************************************
 //
@@ -133,17 +145,7 @@ extern "C"
 #define ADC_A_FORCE_SOC0 ADC_FORCE_SOC0
 #define ADC_A_SAMPLE_WINDOW_SOC0 150
 #define ADC_A_TRIGGER_SOURCE_SOC0 ADC_TRIGGER_EPWM2_SOCA
-#define ADC_A_CHANNEL_SOC0 ADC_CH_ADCIN14
-#define ADC_A_SOC1 ADC_SOC_NUMBER1
-#define ADC_A_FORCE_SOC1 ADC_FORCE_SOC1
-#define ADC_A_SAMPLE_WINDOW_SOC1 150
-#define ADC_A_TRIGGER_SOURCE_SOC1 ADC_TRIGGER_EPWM2_SOCA
-#define ADC_A_CHANNEL_SOC1 ADC_CH_ADCIN15
-#define ADC_A_SOC2 ADC_SOC_NUMBER2
-#define ADC_A_FORCE_SOC2 ADC_FORCE_SOC2
-#define ADC_A_SAMPLE_WINDOW_SOC2 150
-#define ADC_A_TRIGGER_SOURCE_SOC2 ADC_TRIGGER_EPWM2_SOCA
-#define ADC_A_CHANNEL_SOC2 ADC_CH_ADCIN1
+#define ADC_A_CHANNEL_SOC0 ADC_CH_ADCIN6
 void ADC_A_init();
 
 
@@ -234,6 +236,12 @@ void LED1_init();
 void LED2_init();
 #define PWM_EN 41
 void PWM_EN_init();
+#define Key1 4
+void Key1_init();
+#define Key2 25
+void Key2_init();
+#define Key3 40
+void Key3_init();
 
 //*****************************************************************************
 //

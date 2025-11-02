@@ -57,7 +57,7 @@ static void sPowerOnMode(void)
     {
     case State_Sub_Init:
     {
-        if(sfsm_Delay(3000))
+        if(sfsm_Delay(1000))
         {
             sfsm_SetSubState(State_Sub_1);
         }
@@ -65,7 +65,7 @@ static void sPowerOnMode(void)
     break;
     case State_Sub_1:
     {
-        if(sfsm_Delay(3000))
+        if(sfsm_Delay(1000))
         {
             sfsm_SetSubState(State_Sub_End);
         }
@@ -73,7 +73,7 @@ static void sPowerOnMode(void)
     break;
     case State_Sub_End:
     {
-        if(sfsm_Delay(3000))
+        if(sfsm_Delay(1000))
         {
             sfsm_SetState(State_StandBy);
         }
@@ -97,6 +97,8 @@ static void sShutdownMode(void)
     if( sfsm_ChkStateChange() )
     {      ; }
 
+    dcac_Stop();
+
 }
 static void sStandByMode(void)
 {
@@ -107,7 +109,7 @@ static void sStandByMode(void)
     {
     case State_Sub_Init:
     {
-        if(sfsm_Delay(3000))
+        if(sfsm_Delay(1000))
         {
             sfsm_SetSubState(State_Sub_1);
         }
@@ -115,7 +117,7 @@ static void sStandByMode(void)
     break;
     case State_Sub_1:
     {
-        if(sfsm_Delay(3000))
+        if(sfsm_Delay(1000))
         {
             sfsm_SetSubState(State_Sub_End);
         }
@@ -123,7 +125,7 @@ static void sStandByMode(void)
     break;
     case State_Sub_End:
     {
-        if(sfsm_Delay(3000))
+        if(sfsm_Delay(1000))
         {
             sfsm_SetState(State_NormalInv);
         }

@@ -24,6 +24,8 @@ void dcac_Stop(void);
 void dcac_SetVoltLoop(void);
 void dcac_SetCurrLoop(void);
 uint16_t dcac_GetSpllState(void);
+void dcac_SetTargetVoltAm(float v);
+float dcac_GetTargetVoltAm();
 
 #endif /* APP_DCAC_H_ */
 

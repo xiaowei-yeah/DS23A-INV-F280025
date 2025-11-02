@@ -26,6 +26,9 @@ const gpio      = scripting.addModule("/driverlib/gpio.js", {}, false);
 const gpio1     = gpio.addInstance();
 const gpio2     = gpio.addInstance();
 const gpio3     = gpio.addInstance();
+const gpio4     = gpio.addInstance();
+const gpio5     = gpio.addInstance();
+const gpio6     = gpio.addInstance();
 
 /**
  * Write custom configuration values to the imported modules.
@@ -199,6 +202,15 @@ gpio3.padConfig         = "PULLUP";
 gpio3.writeInitialValue = true;
 gpio3.initialValue      = 1;
 gpio3.gpioPin.$assign   = "GPIO41";
+
+gpio4.$name           = "Key1";
+gpio4.gpioPin.$assign = "GPIO4";
+
+gpio5.$name           = "Key2";
+gpio5.gpioPin.$assign = "GPIO25";
+
+gpio6.$name           = "Key3";
+gpio6.gpioPin.$assign = "GPIO40";
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future

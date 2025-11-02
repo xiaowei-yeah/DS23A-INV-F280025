@@ -177,6 +177,12 @@ void PinMux_init()
 	GPIO_setPinConfig(GPIO_45_GPIO45);
 	// GPIO41 -> PWM_EN Pinmux
 	GPIO_setPinConfig(GPIO_41_GPIO41);
+	// GPIO4 -> Key1 Pinmux
+	GPIO_setPinConfig(GPIO_4_GPIO4);
+	// GPIO25 -> Key2 Pinmux
+	GPIO_setPinConfig(GPIO_25_GPIO25);
+	// GPIO40 -> Key3 Pinmux
+	GPIO_setPinConfig(GPIO_40_GPIO40);
 
 }
 
@@ -231,38 +237,12 @@ void ADC_A_init(){
 	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
 	// 	  	SOC number		: 0
 	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
-	//	  	Channel			: ADC_CH_ADCIN14
+	//	  	Channel			: ADC_CH_ADCIN6
 	//	 	Sample Window	: 15 SYSCLK cycles
 	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
 	//
-	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN14, 15U);
+	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN6, 15U);
 	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_INT_SOC_TRIGGER_NONE);
-	//
-	// Start of Conversion 1 Configuration
-	//
-	//
-	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
-	// 	  	SOC number		: 1
-	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
-	//	  	Channel			: ADC_CH_ADCIN15
-	//	 	Sample Window	: 15 SYSCLK cycles
-	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
-	//
-	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER1, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN15, 15U);
-	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER1, ADC_INT_SOC_TRIGGER_NONE);
-	//
-	// Start of Conversion 2 Configuration
-	//
-	//
-	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
-	// 	  	SOC number		: 2
-	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
-	//	  	Channel			: ADC_CH_ADCIN1
-	//	 	Sample Window	: 15 SYSCLK cycles
-	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
-	//
-	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER2, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN1, 15U);
-	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER2, ADC_INT_SOC_TRIGGER_NONE);
 	//
 	// ADC Interrupt 1 Configuration
 	// 		Source	: ADC_SOC_NUMBER0
@@ -496,6 +476,9 @@ void GPIO_init(){
 	LED1_init();
 	LED2_init();
 	PWM_EN_init();
+	Key1_init();
+	Key2_init();
+	Key3_init();
 }
 
 void LED1_init(){
@@ -513,6 +496,21 @@ void PWM_EN_init(){
 	GPIO_setPadConfig(PWM_EN, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
 	GPIO_setQualificationMode(PWM_EN, GPIO_QUAL_SYNC);
 	GPIO_setDirectionMode(PWM_EN, GPIO_DIR_MODE_OUT);
+}
+void Key1_init(){
+	GPIO_setPadConfig(Key1, GPIO_PIN_TYPE_STD);
+	GPIO_setQualificationMode(Key1, GPIO_QUAL_SYNC);
+	GPIO_setDirectionMode(Key1, GPIO_DIR_MODE_IN);
+}
+void Key2_init(){
+	GPIO_setPadConfig(Key2, GPIO_PIN_TYPE_STD);
+	GPIO_setQualificationMode(Key2, GPIO_QUAL_SYNC);
+	GPIO_setDirectionMode(Key2, GPIO_DIR_MODE_IN);
+}
+void Key3_init(){
+	GPIO_setPadConfig(Key3, GPIO_PIN_TYPE_STD);
+	GPIO_setQualificationMode(Key3, GPIO_QUAL_SYNC);
+	GPIO_setDirectionMode(Key3, GPIO_DIR_MODE_IN);
 }
 
 //*****************************************************************************
