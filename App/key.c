@@ -95,7 +95,8 @@ key_list_TypeDef list1[] =
  {keyIdle,          keyPressEvt,            keyPress,           NULL},
  {keyPress,         keyReleaseEvt,          keyIdle,            key1_click},        //短按
  {keyPress,         keyTime2OutEvt,         keyLongPress,       NULL},
- {keyLongPress,     keyReleaseEvt,          keyIdle,            key1_longClick},    //长按
+ {keyLongPress,     keyReleaseEvt,          keyIdle,            NULL},
+ {keyLongPress,     keyPressEvt,            keyLongPress,       key1_longClick},    //长按
 };
 key_list_TypeDef list2[] =
 {
@@ -112,7 +113,8 @@ key_list_TypeDef list3[] =
  {keyIdle,          keyPressEvt,            keyPress,           NULL},
  {keyPress,         keyReleaseEvt,          keyIdle,            key3_click},        //短按
  {keyPress,         keyTime2OutEvt,         keyLongPress,       NULL},
- {keyLongPress,     keyReleaseEvt,          keyIdle,            key3_longClick},    //长按
+ {keyLongPress,     keyReleaseEvt,          keyIdle,            NULL},
+ {keyLongPress,     keyPressEvt,            keyLongPress,       key3_longClick},    //长按
 };
 
 //-------------------------------------------Value-----------------------------------------
@@ -272,8 +274,8 @@ void key_Init()
     key3.pInitFunc = key3_init;
 
     (*key1.pInitFunc)(&key1);
-    (*key1.pInitFunc)(&key2);
-    (*key1.pInitFunc)(&key3);
+    (*key2.pInitFunc)(&key2);
+    (*key3.pInitFunc)(&key3);
 
 }
 
@@ -311,7 +313,7 @@ void key1_doubleClick()
 }
 void key1_longClick()
 {
-
+    dcac_SetTargetVoltAm(dcac_GetTargetVoltAm()-0.1);
 }
 //**************************
 void key2_click()
@@ -320,7 +322,7 @@ void key2_click()
 }
 void key2_doubleClick()
 {
-    task_TurnShutdownMode_Func();
+
 }
 void key2_longClick()
 {
@@ -337,7 +339,7 @@ void key3_doubleClick()
 }
 void key3_longClick()
 {
-
+    dcac_SetTargetVoltAm(dcac_GetTargetVoltAm()+0.1);
 }
 //**************************
 
