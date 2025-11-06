@@ -19,6 +19,7 @@
 //------------------------------------Function declaration---------------------------------
 
 extern uint32_t tick_Get();
+extern void key_Run();
 
 //--------------------------------------Value declaration----------------------------------
 
@@ -54,38 +55,41 @@ static void Loop_200Hz(void) //5ms执行一次
 static void Loop_100Hz(void) //10ms执行一次
 {
     //////////////////////////////////////////////////////////////////////
-    static uint16_t nowkey1;
-    static uint16_t nowkey2;
-    static uint16_t nowkey3;
-    static uint16_t lastkey1;
-    static uint16_t lastkey2;
-    static uint16_t lastkey3;
-    nowkey1 = GPIO_readPin(Key1);
-    nowkey2 = GPIO_readPin(Key2);
-    nowkey3 = GPIO_readPin(Key3);
 
-    if(nowkey1==0 && lastkey1==1)
-    {
-        dcac_SetTargetVoltAm(dcac_GetTargetVoltAm()-5);
-    }
-    if(nowkey2==0 && lastkey2==1)
-    {
-        if(Sys.State==State_Shutdown)
-        {
-            task_TurnStandByMode_Func();
-        }
-        if(Sys.State==State_NormalInv || Sys.State==State_StandBy)
-        {
-            task_TurnShutdownMode_Func();
-        }
-    }
-    if(nowkey3==0 && lastkey3==1)
-    {
-        dcac_SetTargetVoltAm(dcac_GetTargetVoltAm()+5);
-    }
-    lastkey1 = nowkey1;
-    lastkey2 = nowkey2;
-    lastkey3 = nowkey3;
+    key_Run();
+
+//    static uint16_t nowkey1;
+//    static uint16_t nowkey2;
+//    static uint16_t nowkey3;
+//    static uint16_t lastkey1;
+//    static uint16_t lastkey2;
+//    static uint16_t lastkey3;
+//    nowkey1 = GPIO_readPin(Key1);
+//    nowkey2 = GPIO_readPin(Key2);
+//    nowkey3 = GPIO_readPin(Key3);
+//
+//    if(nowkey1==0 && lastkey1==1)
+//    {
+//        dcac_SetTargetVoltAm(dcac_GetTargetVoltAm()-5);
+//    }
+//    if(nowkey2==0 && lastkey2==1)
+//    {
+//        if(Sys.State==State_Shutdown)
+//        {
+//            task_TurnStandByMode_Func();
+//        }
+//        if(Sys.State==State_NormalInv || Sys.State==State_StandBy)
+//        {
+//            task_TurnShutdownMode_Func();
+//        }
+//    }
+//    if(nowkey3==0 && lastkey3==1)
+//    {
+//        dcac_SetTargetVoltAm(dcac_GetTargetVoltAm()+5);
+//    }
+//    lastkey1 = nowkey1;
+//    lastkey2 = nowkey2;
+//    lastkey3 = nowkey3;
 
     //////////////////////////////////////////////////////////////////////
 }
