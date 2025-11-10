@@ -133,6 +133,14 @@ extern "C"
 // GPIO40 - GPIO Settings
 //
 #define Key3_GPIO_PIN_CONFIG GPIO_40_GPIO40
+//
+// GPIO27 - GPIO Settings
+//
+#define OLED_SCL_GPIO_PIN_CONFIG GPIO_27_GPIO27
+//
+// GPIO26 - GPIO Settings
+//
+#define OLED_SDA_GPIO_PIN_CONFIG GPIO_26_GPIO26
 
 //*****************************************************************************
 //
@@ -242,6 +250,10 @@ void Key1_init();
 void Key2_init();
 #define Key3 40
 void Key3_init();
+#define OLED_SCL 27
+void OLED_SCL_init();
+#define OLED_SDA 26
+void OLED_SDA_init();
 
 //*****************************************************************************
 //

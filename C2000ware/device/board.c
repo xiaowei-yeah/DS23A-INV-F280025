@@ -183,6 +183,10 @@ void PinMux_init()
 	GPIO_setPinConfig(GPIO_25_GPIO25);
 	// GPIO40 -> Key3 Pinmux
 	GPIO_setPinConfig(GPIO_40_GPIO40);
+	// GPIO27 -> OLED_SCL Pinmux
+	GPIO_setPinConfig(GPIO_27_GPIO27);
+	// GPIO26 -> OLED_SDA Pinmux
+	GPIO_setPinConfig(GPIO_26_GPIO26);
 
 }
 
@@ -479,6 +483,8 @@ void GPIO_init(){
 	Key1_init();
 	Key2_init();
 	Key3_init();
+	OLED_SCL_init();
+	OLED_SDA_init();
 }
 
 void LED1_init(){
@@ -511,6 +517,18 @@ void Key3_init(){
 	GPIO_setPadConfig(Key3, GPIO_PIN_TYPE_STD);
 	GPIO_setQualificationMode(Key3, GPIO_QUAL_SYNC);
 	GPIO_setDirectionMode(Key3, GPIO_DIR_MODE_IN);
+}
+void OLED_SCL_init(){
+	GPIO_writePin(OLED_SCL, 1);
+	GPIO_setPadConfig(OLED_SCL, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(OLED_SCL, GPIO_QUAL_SYNC);
+	GPIO_setDirectionMode(OLED_SCL, GPIO_DIR_MODE_OUT);
+}
+void OLED_SDA_init(){
+	GPIO_writePin(OLED_SDA, 1);
+	GPIO_setPadConfig(OLED_SDA, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(OLED_SDA, GPIO_QUAL_SYNC);
+	GPIO_setDirectionMode(OLED_SDA, GPIO_DIR_MODE_OUT);
 }
 
 //*****************************************************************************

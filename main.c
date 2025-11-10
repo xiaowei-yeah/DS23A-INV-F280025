@@ -55,6 +55,8 @@ void main(void)
     key_Init();
     dcac_Init();
 
+    OLED_Init();
+
     Scheduler_Setup();
 
     //
@@ -67,6 +69,7 @@ void main(void)
     //
     for(;;)
     {
+
         tick_Update();
         Scheduler_Run();
     }

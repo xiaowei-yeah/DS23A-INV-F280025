@@ -338,6 +338,8 @@ extern "C"
 #define DEVICE_DELAY_US(x) SysCtl_delay(((((long double)(x)) / (1000000.0L /  \
                               (long double)DEVICE_SYSCLK_FREQ)) - 9.0L) / 5.0L)
 
+#define DEVICE_DELAY_NS(x) SysCtl_delay(((((long double)(x)) / (1000000000.0L /  \
+                              (long double)DEVICE_SYSCLK_FREQ)) - 9.0L) / 5.0L)
 //
 //  Defines for setting FSI clock speeds
 //

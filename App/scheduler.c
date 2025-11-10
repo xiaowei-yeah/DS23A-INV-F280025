@@ -112,7 +112,26 @@ static void Loop_20Hz(void) //50ms执行一次
 static void Loop_2Hz(void) //500ms执行一次
 {
     //////////////////////////////////////////////////////////////////////
+    static float a = 10.157;
+    OLED_ShowString(1,1,"time:");
+    uint16_t b = a;
+    OLED_ShowNum(1,6,b,5);
+    OLED_ShowString(1,11,".");
+    uint16_t c = (uint16_t)((a-((float)b))*1000.0f);
+    uint16_t d = c;
+    uint16_t i = 1;
+    for(i=1;i<6;i++)
+    {
+        c/=10;
+        if(c == 0)
+        {
+            break;
+        }
+    }
+    OLED_ShowNum(1,12,d,i);
 
+
+    a+=0.011;
 
     if(Sys.State==State_Shutdown)
     {
