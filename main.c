@@ -10,10 +10,12 @@
 // Included Files
 //
 #include "projectall.h"
-
+#include "mb.h"
 
 extern void tick_Update(void);
 extern void key_Init();
+extern void Modbus_Init(MB_t *mb);
+
 //
 // Main
 //
@@ -56,6 +58,8 @@ void main(void)
     dcac_Init();
 
     Scheduler_Setup();
+
+    Modbus_Init(&mb);
 
     //
     // Enables CPU interrupts

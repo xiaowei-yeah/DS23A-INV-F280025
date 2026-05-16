@@ -11,6 +11,7 @@
 
 #include "projectall.h"
 #include "fsm.h"
+#include "mb.h"
 
 //--------------------------------------Macro definition-----------------------------------
 
@@ -20,7 +21,7 @@
 
 extern uint32_t tick_Get();
 extern void key_Run();
-
+extern void ModbusOutTime_CounterChk(MB_t *mb);
 //--------------------------------------Value declaration----------------------------------
 
 //--------------------------------------Value definition-----------------------------------
@@ -32,6 +33,9 @@ static void Loop_1000Hz(void) //1ms执行一次
     //////////////////////////////////////////////////////////////////////
 
     FaultTask();
+
+    ModbusOutTime_CounterChk(&mb);
+    MB_Poll(&mb);
 
     //////////////////////////////////////////////////////////////////////
 }
@@ -108,11 +112,10 @@ static void Loop_20Hz(void) //50ms执行一次
 
     //////////////////////////////////////////////////////////////////////
 }
-
+extern void SendBuf(const uint8_t *data, uint16_t len);
 static void Loop_2Hz(void) //500ms执行一次
 {
     //////////////////////////////////////////////////////////////////////
-
 
     if(Sys.State==State_Shutdown)
     {

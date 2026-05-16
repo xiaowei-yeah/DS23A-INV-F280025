@@ -55,6 +55,7 @@ void Board_init()
 	DMA_init();
 	EPWM_init();
 	GPIO_init();
+	SCI_init();
 	INTERRUPT_init();
 
 	EDIS;
@@ -183,6 +184,17 @@ void PinMux_init()
 	GPIO_setPinConfig(GPIO_25_GPIO25);
 	// GPIO40 -> Key3 Pinmux
 	GPIO_setPinConfig(GPIO_40_GPIO40);
+	//
+	// SCIA -> SCI_Modbus Pinmux
+	//
+	GPIO_setPinConfig(SCI_Modbus_SCIRX_PIN_CONFIG);
+	GPIO_setPadConfig(SCI_Modbus_SCIRX_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(SCI_Modbus_SCIRX_GPIO, GPIO_QUAL_ASYNC);
+
+	GPIO_setPinConfig(SCI_Modbus_SCITX_PIN_CONFIG);
+	GPIO_setPadConfig(SCI_Modbus_SCITX_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(SCI_Modbus_SCITX_GPIO, GPIO_QUAL_ASYNC);
+
 
 }
 
@@ -193,6 +205,7 @@ void PinMux_init()
 //*****************************************************************************
 void ADC_init(){
 	ADC_A_init();
+	ADC_C_init();
 }
 
 void ADC_A_init(){
@@ -243,17 +256,56 @@ void ADC_A_init(){
 	//
 	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN6, 15U);
 	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_INT_SOC_TRIGGER_NONE);
+}
+
+void ADC_C_init(){
 	//
-	// ADC Interrupt 1 Configuration
-	// 		Source	: ADC_SOC_NUMBER0
-	// 		Interrupt Source: enabled
-	//		Continuous Mode	: enabled
+	// ADC Initialization: Write ADC configurations and power up the ADC
+	//
+	// Set the analog voltage reference selection and ADC module's offset trims.
+	// This function sets the analog voltage reference to internal (with the reference voltage of 1.65V or 2.5V) or external for ADC
+	// which is same as ASysCtl APIs.
+	//
+	ADC_setVREF(ADC_C_BASE, ADC_REFERENCE_EXTERNAL, ADC_REFERENCE_2_5V);
+	//
+	// Configures the analog-to-digital converter module prescaler.
+	//
+	ADC_setPrescaler(ADC_C_BASE, ADC_CLK_DIV_2_0);
+	//
+	// Sets the timing of the end-of-conversion pulse
+	//
+	ADC_setInterruptPulseMode(ADC_C_BASE, ADC_PULSE_END_OF_CONV);
+	//
+	// Powers up the analog-to-digital converter core.
+	//
+	ADC_enableConverter(ADC_C_BASE);
+	//
+	// Delay for 1ms to allow ADC time to power up
+	//
+	DEVICE_DELAY_US(500);
+	//
+	// SOC Configuration: Setup ADC EPWM channel and trigger settings
+	//
+	// Disables SOC burst mode.
+	//
+	ADC_disableBurstMode(ADC_C_BASE);
+	//
+	// Sets the priority mode of the SOCs.
+	//
+	ADC_setSOCPriority(ADC_C_BASE, ADC_PRI_ALL_ROUND_ROBIN);
+	//
+	// Start of Conversion 0 Configuration
 	//
 	//
-	ADC_setInterruptSource(ADC_A_BASE, ADC_INT_NUMBER1, ADC_SOC_NUMBER0);
-	ADC_clearInterruptStatus(ADC_A_BASE, ADC_INT_NUMBER1);
-	ADC_enableContinuousMode(ADC_A_BASE, ADC_INT_NUMBER1);
-	ADC_enableInterrupt(ADC_A_BASE, ADC_INT_NUMBER1);
+	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
+	// 	  	SOC number		: 0
+	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
+	//	  	Channel			: ADC_CH_ADCIN6
+	//	 	Sample Window	: 15 SYSCLK cycles
+	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
+	//
+	ADC_setupSOC(ADC_C_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN6, 15U);
+	ADC_setInterruptSOCTrigger(ADC_C_BASE, ADC_SOC_NUMBER0, ADC_INT_SOC_TRIGGER_NONE);
 }
 
 
@@ -302,21 +354,18 @@ void CpuTimer0_init(){
 //*****************************************************************************
 void DMA_init(){
     DMA_initController();
-	DMA_A_init();
+	DMA_C_init();
 }
 
-void DMA_A_init(){
+void DMA_C_init(){
     DMA_setEmulationMode(DMA_EMULATION_FREE_RUN);
-    DMA_configAddresses(DMA_A_BASE, Dma_DestinationAddr, Dma_SourceAddr);
-    DMA_configBurst(DMA_A_BASE, 16U, 1, 1);
-    DMA_configTransfer(DMA_A_BASE, 2U, -15, 1);
-    DMA_configWrap(DMA_A_BASE, 16U, 0, 32U, 0);
-    DMA_configMode(DMA_A_BASE, DMA_TRIGGER_ADCA1, DMA_CFG_ONESHOT_DISABLE | DMA_CFG_CONTINUOUS_ENABLE | DMA_CFG_SIZE_16BIT);
-    DMA_setInterruptMode(DMA_A_BASE, DMA_INT_AT_END);
-    DMA_enableInterrupt(DMA_A_BASE);
-    DMA_disableOverrunInterrupt(DMA_A_BASE);
-    DMA_enableTrigger(DMA_A_BASE);
-    DMA_startChannel(DMA_A_BASE);
+    DMA_configAddresses(DMA_C_BASE, Dma_DestinationAddr, Dma_SourceAddr);
+    DMA_configBurst(DMA_C_BASE, 16U, 1, 1);
+    DMA_configTransfer(DMA_C_BASE, 2U, -15, 1);
+    DMA_configWrap(DMA_C_BASE, 16U, 0, 32U, 0);
+    DMA_configMode(DMA_C_BASE, DMA_TRIGGER_ADCC1, DMA_CFG_ONESHOT_DISABLE | DMA_CFG_CONTINUOUS_ENABLE | DMA_CFG_SIZE_16BIT);
+    DMA_enableTrigger(DMA_C_BASE);
+    DMA_startChannel(DMA_C_BASE);
 }
 
 //*****************************************************************************
@@ -520,21 +569,45 @@ void Key3_init(){
 //*****************************************************************************
 void INTERRUPT_init(){
 	
-	// Interrupt Settings for INT_DMA_A
-	// ISR need to be defined for the registered interrupts
-	Interrupt_register(INT_DMA_A, &INT_DMA_A_ISR);
-	Interrupt_enable(INT_DMA_A);
-	
 	// Interrupt Settings for INT_ePWM_Ap_TZ
 	// ISR need to be defined for the registered interrupts
 	Interrupt_register(INT_ePWM_Ap_TZ, &INT_ePWM_Ap_TZ_ISR);
 	Interrupt_enable(INT_ePWM_Ap_TZ);
 	
-	// Interrupt Settings for INT_ADC_A_1
+	// Interrupt Settings for INT_SCI_Modbus_RX
 	// ISR need to be defined for the registered interrupts
-	Interrupt_register(INT_ADC_A_1, &INT_ADC_A_1_ISR);
-	Interrupt_enable(INT_ADC_A_1);
+	Interrupt_register(INT_SCI_Modbus_RX, &INT_SCI_Modbus_RX_ISR);
+	Interrupt_enable(INT_SCI_Modbus_RX);
+	
+	// Interrupt Settings for INT_SCI_Modbus_TX
+	// ISR need to be defined for the registered interrupts
+	Interrupt_register(INT_SCI_Modbus_TX, &INT_SCI_Modbus_TX_ISR);
+	Interrupt_enable(INT_SCI_Modbus_TX);
 }
+//*****************************************************************************
+//
+// SCI Configurations
+//
+//*****************************************************************************
+void SCI_init(){
+	SCI_Modbus_init();
+}
+
+void SCI_Modbus_init(){
+	SCI_clearInterruptStatus(SCI_Modbus_BASE, SCI_INT_RXFF | SCI_INT_TXFF | SCI_INT_FE | SCI_INT_OE | SCI_INT_PE | SCI_INT_RXERR | SCI_INT_RXRDY_BRKDT | SCI_INT_TXRDY);
+	SCI_clearOverflowStatus(SCI_Modbus_BASE);
+	SCI_resetTxFIFO(SCI_Modbus_BASE);
+	SCI_resetRxFIFO(SCI_Modbus_BASE);
+	SCI_resetChannels(SCI_Modbus_BASE);
+	SCI_setConfig(SCI_Modbus_BASE, DEVICE_LSPCLK_FREQ, SCI_Modbus_BAUDRATE, (SCI_CONFIG_WLEN_8|SCI_CONFIG_STOP_ONE|SCI_CONFIG_PAR_NONE));
+	SCI_disableLoopback(SCI_Modbus_BASE);
+	SCI_performSoftwareReset(SCI_Modbus_BASE);
+	SCI_enableInterrupt(SCI_Modbus_BASE, SCI_INT_RXFF | SCI_INT_TXFF);
+	SCI_setFIFOInterruptLevel(SCI_Modbus_BASE, SCI_FIFO_TX0, SCI_FIFO_RX1);
+	SCI_enableFIFO(SCI_Modbus_BASE);
+	SCI_enableModule(SCI_Modbus_BASE);
+}
+
 //*****************************************************************************
 //
 // SYNC Scheme Configurations

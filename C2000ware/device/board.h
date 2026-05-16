@@ -134,6 +134,22 @@ extern "C"
 //
 #define Key3_GPIO_PIN_CONFIG GPIO_40_GPIO40
 
+//
+// SCIA -> SCI_Modbus Pinmux
+//
+//
+// SCIA_RX - GPIO Settings
+//
+#define GPIO_PIN_SCIA_RX 28
+#define SCI_Modbus_SCIRX_GPIO 28
+#define SCI_Modbus_SCIRX_PIN_CONFIG GPIO_28_SCIA_RX
+//
+// SCIA_TX - GPIO Settings
+//
+#define GPIO_PIN_SCIA_TX 29
+#define SCI_Modbus_SCITX_GPIO 29
+#define SCI_Modbus_SCITX_PIN_CONFIG GPIO_29_SCIA_TX
+
 //*****************************************************************************
 //
 // ADC Configurations
@@ -147,6 +163,15 @@ extern "C"
 #define ADC_A_TRIGGER_SOURCE_SOC0 ADC_TRIGGER_EPWM2_SOCA
 #define ADC_A_CHANNEL_SOC0 ADC_CH_ADCIN6
 void ADC_A_init();
+
+#define ADC_C_BASE ADCC_BASE
+#define ADC_C_RESULT_BASE ADCCRESULT_BASE
+#define ADC_C_SOC0 ADC_SOC_NUMBER0
+#define ADC_C_FORCE_SOC0 ADC_FORCE_SOC0
+#define ADC_C_SAMPLE_WINDOW_SOC0 150
+#define ADC_C_TRIGGER_SOURCE_SOC0 ADC_TRIGGER_EPWM2_SOCA
+#define ADC_C_CHANNEL_SOC0 ADC_CH_ADCIN6
+void ADC_C_init();
 
 
 //*****************************************************************************
@@ -170,12 +195,12 @@ void CpuTimer0_init();
 //*****************************************************************************
 extern const void *Dma_SourceAddr;
 extern const void *Dma_DestinationAddr;
-#define DMA_A_BASE DMA_CH1_BASE 
-#define DMA_A_BURSTSIZE 16U
-#define DMA_A_TRANSFERSIZE 2U
-#define DMA_A_SRC_WRAPSIZE 16U
-#define DMA_A_DEST_WRAPSIZE 32U
-void DMA_A_init();
+#define DMA_C_BASE DMA_CH1_BASE 
+#define DMA_C_BURSTSIZE 16U
+#define DMA_C_TRANSFERSIZE 2U
+#define DMA_C_SRC_WRAPSIZE 16U
+#define DMA_C_DEST_WRAPSIZE 32U
+void DMA_C_init();
 
 //*****************************************************************************
 //
@@ -249,23 +274,37 @@ void Key3_init();
 //
 //*****************************************************************************
 
-// Interrupt Settings for INT_DMA_A
-// ISR need to be defined for the registered interrupts
-#define INT_DMA_A INT_DMA_CH1
-#define INT_DMA_A_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP7
-extern __interrupt void INT_DMA_A_ISR(void);
-
 // Interrupt Settings for INT_ePWM_Ap_TZ
 // ISR need to be defined for the registered interrupts
 #define INT_ePWM_Ap_TZ INT_EPWM2_TZ
 #define INT_ePWM_Ap_TZ_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP2
 extern __interrupt void INT_ePWM_Ap_TZ_ISR(void);
 
-// Interrupt Settings for INT_ADC_A_1
+// Interrupt Settings for INT_SCI_Modbus_RX
 // ISR need to be defined for the registered interrupts
-#define INT_ADC_A_1 INT_ADCA1
-#define INT_ADC_A_1_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP1
-extern __interrupt void INT_ADC_A_1_ISR(void);
+#define INT_SCI_Modbus_RX INT_SCIA_RX
+#define INT_SCI_Modbus_RX_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP9
+extern __interrupt void INT_SCI_Modbus_RX_ISR(void);
+
+// Interrupt Settings for INT_SCI_Modbus_TX
+// ISR need to be defined for the registered interrupts
+#define INT_SCI_Modbus_TX INT_SCIA_TX
+#define INT_SCI_Modbus_TX_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP9
+extern __interrupt void INT_SCI_Modbus_TX_ISR(void);
+
+//*****************************************************************************
+//
+// SCI Configurations
+//
+//*****************************************************************************
+#define SCI_Modbus_BASE SCIA_BASE
+#define SCI_Modbus_BAUDRATE 9600
+#define SCI_Modbus_CONFIG_WLEN SCI_CONFIG_WLEN_8
+#define SCI_Modbus_CONFIG_STOP SCI_CONFIG_STOP_ONE
+#define SCI_Modbus_CONFIG_PAR SCI_CONFIG_PAR_NONE
+#define SCI_Modbus_FIFO_TX_LVL SCI_FIFO_TX0
+#define SCI_Modbus_FIFO_RX_LVL SCI_FIFO_RX1
+void SCI_Modbus_init();
 
 //*****************************************************************************
 //
@@ -286,6 +325,7 @@ void	DMA_init();
 void	EPWM_init();
 void	GPIO_init();
 void	INTERRUPT_init();
+void	SCI_init();
 void	SYNC_init();
 void	PinMux_init();
 
