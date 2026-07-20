@@ -18,8 +18,8 @@
 #define cADC_VREF           (3.3f)
 
 #define cSAMP_GAIN_VOLT     (53.0f*cADC_VREF/cADC_COMDE_FULL)
-#define cSAMP_GAIN_CURR     (cADC_VREF/cADC_COMDE_FULL/0.132f)
-
+//#define cSAMP_GAIN_CURR     (cADC_VREF/cADC_COMDE_FULL/0.132f) //»ô¶û
+#define cSAMP_GAIN_CURR     (5*cADC_VREF/cADC_COMDE_FULL)   //240
 
 typedef struct {
     float ui;
@@ -110,7 +110,7 @@ uint16_t samp_updateAdc2Real(AdcName_enum id,uint16_t ad)
 #pragma CODE_SECTION(samp_UpdateAll,".TI.ramfunc");
 void samp_UpdateAll()
 {
-    samp_updateAdc2Real(eCurr_OutA, (dma_getBuff(0)+dma_getBuff(16))>>1 );
+    samp_updateAdc2Real(eCurr_OutA, (dma_getBuff(0)+dma_getBuff(0))>>1 );
     samp_updateAdc2Real(eVolt_OutA, (dma_getBuff(1)+dma_getBuff(17))>>1 );
     samp_updateAdc2Real(eVolt_InA, (dma_getBuff(2)+dma_getBuff(18))>>1 );
 }

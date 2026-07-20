@@ -153,7 +153,17 @@ extern "C"
 #define ADC_A_FORCE_SOC0 ADC_FORCE_SOC0
 #define ADC_A_SAMPLE_WINDOW_SOC0 150
 #define ADC_A_TRIGGER_SOURCE_SOC0 ADC_TRIGGER_EPWM2_SOCA
-#define ADC_A_CHANNEL_SOC0 ADC_CH_ADCIN6
+#define ADC_A_CHANNEL_SOC0 ADC_CH_ADCIN14
+#define ADC_A_SOC1 ADC_SOC_NUMBER1
+#define ADC_A_FORCE_SOC1 ADC_FORCE_SOC1
+#define ADC_A_SAMPLE_WINDOW_SOC1 150
+#define ADC_A_TRIGGER_SOURCE_SOC1 ADC_TRIGGER_EPWM2_SOCA
+#define ADC_A_CHANNEL_SOC1 ADC_CH_ADCIN15
+#define ADC_A_SOC2 ADC_SOC_NUMBER2
+#define ADC_A_FORCE_SOC2 ADC_FORCE_SOC2
+#define ADC_A_SAMPLE_WINDOW_SOC2 150
+#define ADC_A_TRIGGER_SOURCE_SOC2 ADC_TRIGGER_EPWM2_SOCA
+#define ADC_A_CHANNEL_SOC2 ADC_CH_ADCIN1
 void ADC_A_init();
 
 
@@ -261,6 +271,12 @@ void OLED_SDA_init();
 //
 //*****************************************************************************
 
+// Interrupt Settings for INT_ADC_A_1
+// ISR need to be defined for the registered interrupts
+#define INT_ADC_A_1 INT_ADCA1
+#define INT_ADC_A_1_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP1
+extern __interrupt void INT_ADC_A_1_ISR(void);
+
 // Interrupt Settings for INT_DMA_A
 // ISR need to be defined for the registered interrupts
 #define INT_DMA_A INT_DMA_CH1
@@ -272,12 +288,6 @@ extern __interrupt void INT_DMA_A_ISR(void);
 #define INT_ePWM_Ap_TZ INT_EPWM2_TZ
 #define INT_ePWM_Ap_TZ_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP2
 extern __interrupt void INT_ePWM_Ap_TZ_ISR(void);
-
-// Interrupt Settings for INT_ADC_A_1
-// ISR need to be defined for the registered interrupts
-#define INT_ADC_A_1 INT_ADCA1
-#define INT_ADC_A_1_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP1
-extern __interrupt void INT_ADC_A_1_ISR(void);
 
 //*****************************************************************************
 //

@@ -58,6 +58,7 @@ __interrupt void INT_DMA_A_ISR(void)
     static uint16_t cnt = 0;
     if(cnt>=400)cnt=0;
     ADCBuff1[cnt] = samp_getReal(eVolt_OutA);
+    //ADCBuff1[cnt] = samp_getReal(eCurr_OutA);
     cnt++;
 
 

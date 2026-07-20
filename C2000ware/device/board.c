@@ -241,12 +241,38 @@ void ADC_A_init(){
 	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
 	// 	  	SOC number		: 0
 	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
-	//	  	Channel			: ADC_CH_ADCIN6
+	//	  	Channel			: ADC_CH_ADCIN14
 	//	 	Sample Window	: 15 SYSCLK cycles
 	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
 	//
-	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN6, 15U);
+	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN14, 15U);
 	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER0, ADC_INT_SOC_TRIGGER_NONE);
+	//
+	// Start of Conversion 1 Configuration
+	//
+	//
+	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
+	// 	  	SOC number		: 1
+	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
+	//	  	Channel			: ADC_CH_ADCIN15
+	//	 	Sample Window	: 15 SYSCLK cycles
+	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
+	//
+	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER1, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN15, 15U);
+	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER1, ADC_INT_SOC_TRIGGER_NONE);
+	//
+	// Start of Conversion 2 Configuration
+	//
+	//
+	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
+	// 	  	SOC number		: 2
+	//	  	Trigger			: ADC_TRIGGER_EPWM2_SOCA
+	//	  	Channel			: ADC_CH_ADCIN1
+	//	 	Sample Window	: 15 SYSCLK cycles
+	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
+	//
+	ADC_setupSOC(ADC_A_BASE, ADC_SOC_NUMBER2, ADC_TRIGGER_EPWM2_SOCA, ADC_CH_ADCIN1, 15U);
+	ADC_setInterruptSOCTrigger(ADC_A_BASE, ADC_SOC_NUMBER2, ADC_INT_SOC_TRIGGER_NONE);
 	//
 	// ADC Interrupt 1 Configuration
 	// 		Source	: ADC_SOC_NUMBER0
@@ -363,11 +389,11 @@ void EPWM_init(){
     EPWM_setDeadBandDelayMode(ePWM_Ap_BASE, EPWM_DB_RED, true);	
     EPWM_setRisingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE, EPWM_RED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableRisingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE);	
-    EPWM_setRisingEdgeDelayCount(ePWM_Ap_BASE, 100);	
+    EPWM_setRisingEdgeDelayCount(ePWM_Ap_BASE, 50);
     EPWM_setDeadBandDelayMode(ePWM_Ap_BASE, EPWM_DB_FED, true);	
     EPWM_setFallingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE, EPWM_FED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableFallingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE);	
-    EPWM_setFallingEdgeDelayCount(ePWM_Ap_BASE, 100);	
+    EPWM_setFallingEdgeDelayCount(ePWM_Ap_BASE, 50);
     EPWM_setTripZoneAction(ePWM_Ap_BASE, EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Ap_BASE, EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Ap_BASE, EPWM_TZ_ACTION_EVENT_DCAEVT1, EPWM_TZ_ACTION_DISABLE);	
@@ -453,11 +479,11 @@ void EPWM_init(){
     EPWM_setDeadBandDelayMode(ePWM_Bp_BASE, EPWM_DB_RED, true);	
     EPWM_setRisingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE, EPWM_RED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableRisingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE);	
-    EPWM_setRisingEdgeDelayCount(ePWM_Bp_BASE, 100);	
+    EPWM_setRisingEdgeDelayCount(ePWM_Bp_BASE, 50);
     EPWM_setDeadBandDelayMode(ePWM_Bp_BASE, EPWM_DB_FED, true);	
     EPWM_setFallingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE, EPWM_FED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableFallingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE);	
-    EPWM_setFallingEdgeDelayCount(ePWM_Bp_BASE, 100);	
+    EPWM_setFallingEdgeDelayCount(ePWM_Bp_BASE, 50);
     EPWM_setTripZoneAction(ePWM_Bp_BASE, EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Bp_BASE, EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Bp_BASE, EPWM_TZ_ACTION_EVENT_DCAEVT1, EPWM_TZ_ACTION_DISABLE);	
@@ -538,6 +564,11 @@ void OLED_SDA_init(){
 //*****************************************************************************
 void INTERRUPT_init(){
 	
+	// Interrupt Settings for INT_ADC_A_1
+	// ISR need to be defined for the registered interrupts
+	Interrupt_register(INT_ADC_A_1, &INT_ADC_A_1_ISR);
+	Interrupt_enable(INT_ADC_A_1);
+	
 	// Interrupt Settings for INT_DMA_A
 	// ISR need to be defined for the registered interrupts
 	Interrupt_register(INT_DMA_A, &INT_DMA_A_ISR);
@@ -547,11 +578,6 @@ void INTERRUPT_init(){
 	// ISR need to be defined for the registered interrupts
 	Interrupt_register(INT_ePWM_Ap_TZ, &INT_ePWM_Ap_TZ_ISR);
 	Interrupt_enable(INT_ePWM_Ap_TZ);
-	
-	// Interrupt Settings for INT_ADC_A_1
-	// ISR need to be defined for the registered interrupts
-	Interrupt_register(INT_ADC_A_1, &INT_ADC_A_1_ISR);
-	Interrupt_enable(INT_ADC_A_1);
 }
 //*****************************************************************************
 //
