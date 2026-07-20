@@ -65,8 +65,17 @@ static void sPowerOnMode(void)
     break;
     case State_Sub_1:
     {
-        if(sfsm_Delay(1000))
+        static uint16_t cnt1 = 0;
+        static uint32_t sum[eAdcName_End] = {0};
+        cnt1++;
+
+        sum[eCurr_OutA] += samp_getAd(eCurr_OutA);
+        sum[eVolt_OutA] += samp_getAd(eVolt_OutA);
+
+        if(cnt1>=500)
         {
+            samp_setOffset(eCurr_OutA,-(float)(sum[eCurr_OutA]/cnt1));
+            samp_setOffset(eVolt_OutA,-(float)(sum[eVolt_OutA]/cnt1));
             sfsm_SetSubState(State_Sub_End);
         }
     }

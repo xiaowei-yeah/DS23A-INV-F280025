@@ -47,7 +47,7 @@ void GlobalsVarInit(void);
 //--------------------------------------Global value definition-----------------------------------
 
 OWN_EXT float ADCBuff1[400];
-
+OWN_EXT float ADCBuff2[400];
 OWN_EXT SysInf_TypeDef Sys;
 
 #ifdef _DebugStr

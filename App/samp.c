@@ -132,6 +132,15 @@ uint16_t samp_setCaliPara(AdcName_enum id,float a,float b)
     Ain[id].Cali_B = b;
     return 1;
 }
+uint16_t samp_setOffset(AdcName_enum id,float var)
+{
+    if(id >= cADC_ALL_NUM)
+    {
+        return 0;
+    }
+    Ain[id].Offset = var;
+    return 1;
+}
 /****************************************************************
 * Function:     samp_Get
 * Description:

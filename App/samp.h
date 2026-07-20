@@ -33,6 +33,7 @@ void samp_Init();
 void samp_UpdateAll();
 uint16_t samp_updateAdc2Real(AdcName_enum id,uint16_t ad);
 uint16_t samp_setCaliPara(AdcName_enum id,float a,float b);
+uint16_t samp_setOffset(AdcName_enum id,float var);
 float samp_getReal(AdcName_enum id);
 float samp_getPu(AdcName_enum id);
 float samp_getAd(AdcName_enum id);

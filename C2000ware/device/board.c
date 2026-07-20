@@ -389,11 +389,11 @@ void EPWM_init(){
     EPWM_setDeadBandDelayMode(ePWM_Ap_BASE, EPWM_DB_RED, true);	
     EPWM_setRisingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE, EPWM_RED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableRisingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE);	
-    EPWM_setRisingEdgeDelayCount(ePWM_Ap_BASE, 50);
+    EPWM_setRisingEdgeDelayCount(ePWM_Ap_BASE, 20);
     EPWM_setDeadBandDelayMode(ePWM_Ap_BASE, EPWM_DB_FED, true);	
     EPWM_setFallingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE, EPWM_FED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableFallingEdgeDelayCountShadowLoadMode(ePWM_Ap_BASE);	
-    EPWM_setFallingEdgeDelayCount(ePWM_Ap_BASE, 50);
+    EPWM_setFallingEdgeDelayCount(ePWM_Ap_BASE, 20);
     EPWM_setTripZoneAction(ePWM_Ap_BASE, EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Ap_BASE, EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Ap_BASE, EPWM_TZ_ACTION_EVENT_DCAEVT1, EPWM_TZ_ACTION_DISABLE);	
@@ -479,11 +479,11 @@ void EPWM_init(){
     EPWM_setDeadBandDelayMode(ePWM_Bp_BASE, EPWM_DB_RED, true);	
     EPWM_setRisingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE, EPWM_RED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableRisingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE);	
-    EPWM_setRisingEdgeDelayCount(ePWM_Bp_BASE, 50);
+    EPWM_setRisingEdgeDelayCount(ePWM_Bp_BASE, 20);
     EPWM_setDeadBandDelayMode(ePWM_Bp_BASE, EPWM_DB_FED, true);	
     EPWM_setFallingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE, EPWM_FED_LOAD_ON_CNTR_ZERO);	
     EPWM_disableFallingEdgeDelayCountShadowLoadMode(ePWM_Bp_BASE);	
-    EPWM_setFallingEdgeDelayCount(ePWM_Bp_BASE, 50);
+    EPWM_setFallingEdgeDelayCount(ePWM_Bp_BASE, 20);
     EPWM_setTripZoneAction(ePWM_Bp_BASE, EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Bp_BASE, EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_LOW);	
     EPWM_setTripZoneAction(ePWM_Bp_BASE, EPWM_TZ_ACTION_EVENT_DCAEVT1, EPWM_TZ_ACTION_DISABLE);	
